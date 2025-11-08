@@ -16,12 +16,38 @@
 			</view>
 			<view class="center">
 				<swiper vertical autoplay interval="1500" duration="300" circular>
-					<swiper-item>1231231321313123123213123123</swiper-item>
+					<swiper-item>Ciallo～ (∠・ω< )⌒★</swiper-item>
 				</swiper>
 			</view>
 			<view class="right">
 				<uni-icons type="right" size="16" color="#333"></uni-icons>
 			</view>
+		</view>
+		<view class="select">
+			<common-title>
+				<template #name>每日推荐</template>
+				<template #custom>
+					<view class="date">
+						<uni-icons type="calendar-filled" size="30" color="green"></uni-icons>
+						<view class="text">
+							<uni-dateformat :date="new Date()" format="dd日"></uni-dateformat>
+						</view>
+					</view>
+				</template>
+			</common-title>
+			<view class="content">
+				<scroll-view scroll-x>
+					<view class="box" v-for="item in 8">
+						<image src="/common/images/banner1.jpg"></image>
+					</view>
+				</scroll-view>
+			</view>
+		</view>
+		<view class="theme">
+			<common-title>
+				<template #name>专题精选</template>
+				<template #custom><navigator url="" class="more">More+</navigator></template>
+			</common-title>
 		</view>
 	</view>
 </template>
@@ -80,6 +106,42 @@
 				text-overflow: ellipsis;
 			}
 		}
+	}
+}
+.select {
+	padding-top: 50rpx;
+	.content {
+		width: 720rpx;
+		margin-top: 30rpx;
+		margin-left: 30rpx;
+		scroll-view {
+			white-space: nowrap;
+			.box {
+				width: 200rpx;
+				height: 430rpx;
+				display: inline-block;
+				margin-left: 15rpx;
+				image {
+					width: 100%;
+					height: 100%;
+					border-radius: 10rpx;
+				}
+			}
+			.box:last-child {
+				margin-right: 30rpx;
+			}
+		}
+	}
+	.date {
+		display: flex;
+		align-items: center;
+	}
+}
+.theme {
+	margin-top: 50rpx;
+	.more {
+		font-size: 32rpx;
+		color: #888;
 	}
 }
 </style>
