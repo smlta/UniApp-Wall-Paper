@@ -48,6 +48,9 @@
 				<template #name>专题精选</template>
 				<template #custom><navigator url="" class="more">More+</navigator></template>
 			</common-title>
+			<view class="content">
+				<theme-item v-for="item in 8"></theme-item>
+			</view>
 		</view>
 	</view>
 </template>
@@ -142,6 +145,13 @@
 	.more {
 		font-size: 32rpx;
 		color: #888;
+	}
+	.content {
+		margin-top: 30rpx;
+		padding: 0 30rpx;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 15rpx;
 	}
 }
 </style>
