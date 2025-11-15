@@ -1,20 +1,27 @@
 <template>
 	<view class="theme-item">
-		<navigator url="#" class="box">
+		<navigator url="#" class="box" v-if="!isMore">
 			<image src="/common/images/preview2.jpg" class="picture"></image>
 			<view class="mask">mask</view>
 			<view class="tab">Tab标签</view>
 		</navigator>
+		<navigator class="box more" v-if="isMore">
+			<image src="/common/images/kirarashss-1.png" class="picture"></image>
+			<view class="mask">
+				<uni-icons type="more filled" size="34"></uni-icons>
+				<view class="text">更多</view>
+			</view>
+		</navigator>
 	</view>
 </template>
 
-<script>
-export default {
-	name: 'theme-item',
-	data() {
-		return {};
+<script setup>
+const props = defineProps({
+	isMore: {
+		type: Boolean,
+		default: false
 	}
-};
+});
 </script>
 
 <style scoped lang="scss">
@@ -55,6 +62,16 @@ export default {
 			border-radius: 0 0 20rpx 0;
 			transform: scale(0.8);
 			transform-origin: top left; /* 该属性用来指定元素的变形原点*/
+		}
+	}
+	.box.more {
+		.mask {
+			width: 100%;
+			height: 100%;
+			flex-direction: column;
+		}
+		.text {
+			font-size: 28rpx;
 		}
 	}
 }

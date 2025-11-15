@@ -50,6 +50,7 @@
 			</common-title>
 			<view class="content">
 				<theme-item v-for="item in 8"></theme-item>
+				<theme-item :isMore="true"></theme-item>
 			</view>
 		</view>
 	</view>
@@ -141,6 +142,7 @@
 	}
 }
 .theme {
+	padding: 50rpx 0;
 	margin-top: 50rpx;
 	.more {
 		font-size: 32rpx;
