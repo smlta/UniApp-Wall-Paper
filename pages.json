@@ -11,6 +11,12 @@
 			"style": {
 				"navigationBarTitleText": "分类页"
 			}
+		},
+		{
+			"path": "pages/usesr/usesr",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -38,7 +44,8 @@
 			{
 				"text": "我的",
 				"iconPath": "/static/tabBar/user.png",
-				"selectedIconPath": "/static/tabBar/user-h.png"
+				"selectedIconPath": "/static/tabBar/user-h.png",
+				"pagePath": "pages/usesr/usesr"
 			}
 		]
 	}
