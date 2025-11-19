@@ -2,12 +2,12 @@
 const callphone = () => {
 	uni.makePhoneCall({
 		phoneNumber: '18977924692'
-	});
+	}); //报打电话
 };
 </script>
 
 <template>
-	<view class="userLayout">
+	<view class="userLayout pagebag">
 		<view class="userinfo">
 			<view class="avatar">
 				<image src="/common/images/kirarashss-1.png"></image>
