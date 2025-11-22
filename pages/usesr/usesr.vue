@@ -17,6 +17,7 @@ const callphone = () => {
 		</view>
 		<view class="section">
 			<view class="list">
+			<navigator url="/pages/classfiyList/classfiyList">
 				<view class="row">
 					<view class="left">
 						<uni-icons type="download-filled" size="20" ></uni-icons>
@@ -27,7 +28,8 @@ const callphone = () => {
 						<uni-icons type="right" size="30"></uni-icons>
 					</view>
 				</view>
-
+			</navigator>
+            <navigator url="/pages/classfiyList/classfiyList">    
 				<view class="row">
 					<view class="left">
 						<uni-icons type="download-filled" size="20" ></uni-icons>
@@ -38,7 +40,7 @@ const callphone = () => {
 						<uni-icons type="right" size="30"></uni-icons>
 					</view>
 				</view>
-
+            </navigator>
 				<view class="row">
 					<view class="left">
 						<uni-icons type="download-filled" size="20" ></uni-icons>

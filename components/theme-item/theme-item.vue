@@ -1,18 +1,18 @@
 <template>
 	<view class="theme-item">
-		<navigator url="#" class="box" v-if="!isMore">
+		<navigator url="/pages/classfiyList/classfiyList" class="box" v-if="!isMore">
 			<image src="/common/images/preview2.jpg" class="picture"></image>
 			<view class="mask">mask</view>
 			<view class="tab">Tab标签</view>
 		</navigator>
-		<navigator class="box more" v-if="isMore">
+		<navigator class="box more" v-if="isMore" url="/pages/classify/classify" open-type="reLaunch">
 			<image src="/common/images/kirarashss-1.png" class="picture"></image>
 			<view class="mask">
 				<uni-icons type="more filled" size="34"></uni-icons>
 				<view class="text">更多</view>
 			</view>
 		</navigator>
-	</view>
+	</view> <!--如果要跳转的页面是导航栏页面要通过open-type修改跳转方式为relaunch-->
 </template>
 
 <script setup>

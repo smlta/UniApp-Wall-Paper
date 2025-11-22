@@ -56,6 +56,9 @@
   justify-content: center;
   align-items: center;
 }
+.notice .left.data-v-1cf27b2a .uni-icons {
+  color: #28b386 !important;
+}
 .notice .left text.data-v-1cf27b2a {
   color: #28b389;
   font-weight: 600;
@@ -106,6 +109,9 @@
 .select .date.data-v-1cf27b2a {
   display: flex;
   align-items: center;
+}
+.select .date.data-v-1cf27b2a .uni-icons {
+  color: #28b386 !important;
 }
 .theme.data-v-1cf27b2a {
   padding: 50rpx 0;

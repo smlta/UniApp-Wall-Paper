@@ -24,7 +24,6 @@ function _sfc_render(_ctx, _cache) {
     b: common_assets._imports_0,
     c: common_vendor.p({
       size: "20",
-      color: "#286389",
       type: "sound-filled"
     }),
     d: common_vendor.p({
@@ -34,8 +33,7 @@ function _sfc_render(_ctx, _cache) {
     }),
     e: common_vendor.p({
       type: "calendar-filled",
-      size: "30",
-      color: "green"
+      size: "30"
     }),
     f: common_vendor.p({
       date: /* @__PURE__ */ new Date(),

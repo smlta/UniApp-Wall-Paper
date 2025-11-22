@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "分类页",
+  "navigationStyle": "custom",
   "usingComponents": {
     "theme-item": "../../components/theme-item/theme-item"
   }

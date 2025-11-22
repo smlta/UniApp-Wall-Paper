@@ -1,0 +1,1 @@
+{"version":3,"file":"classfiyList.js","sources":["D:/Hbuilder/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvY2xhc3NmaXlMaXN0L2NsYXNzZml5TGlzdC52dWU"],"sourcesContent":["import MiniProgramPage from 'C:/Users/林家明/Desktop/前端文件/UniappCode/wall-paper/pages/classfiyList/classfiyList.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;;;;;;;AACA,GAAG,WAAW,eAAe;"}

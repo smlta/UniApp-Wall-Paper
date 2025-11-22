@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/classify/classify",
-    "pages/usesr/usesr"
+    "pages/usesr/usesr",
+    "pages/classfiyList/classfiyList"
   ],
   "window": {
     "navigationBarTextStyle": "black",
