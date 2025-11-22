@@ -11,7 +11,7 @@
 		</view>
 		<view class="notice">
 			<view class="left">
-				<uni-icons size="20" color="#286389" type="sound-filled"></uni-icons>
+				<uni-icons size="20"  type="sound-filled"></uni-icons>
 				<text>123</text>
 			</view>
 			<view class="center">
@@ -28,7 +28,7 @@
 				<template #name>每日推荐</template>
 				<template #custom>
 					<view class="date">
-						<uni-icons type="calendar-filled" size="30" color="green"></uni-icons>
+						<uni-icons type="calendar-filled" size="30" ></uni-icons>
 						<view class="text">
 							<uni-dateformat :date="new Date()" format="dd日"></uni-dateformat>
 						</view>
@@ -88,6 +88,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		:deep(.uni-icons) {
+			color: $brand-theme-color !important;
+		} //给.left下所有有uni-icons这个类名的元素设置颜色
+		  //这个选择器相当于[data-v-xxx].left .uni-icons
 		text {
 			color: #28b389;
 			font-weight: 600;
@@ -139,6 +143,9 @@
 	.date {
 		display: flex;
 		align-items: center;
+		:deep(.uni-icons) {
+			color: $brand-theme-color !important;
+		}
 	}
 }
 .theme {

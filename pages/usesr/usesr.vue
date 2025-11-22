@@ -19,7 +19,7 @@ const callphone = () => {
 			<view class="list">
 				<view class="row">
 					<view class="left">
-						<uni-icons type="download-filled" size="20" color="#28b389"></uni-icons>
+						<uni-icons type="download-filled" size="20" ></uni-icons>
 						<view class="text">我的下载</view>
 					</view>
 					<view class="right">
@@ -30,7 +30,7 @@ const callphone = () => {
 
 				<view class="row">
 					<view class="left">
-						<uni-icons type="download-filled" size="20" color="#28b389"></uni-icons>
+						<uni-icons type="download-filled" size="20" ></uni-icons>
 						<view class="text">我的评分</view>
 					</view>
 					<view class="right">
@@ -41,7 +41,7 @@ const callphone = () => {
 
 				<view class="row">
 					<view class="left">
-						<uni-icons type="download-filled" size="20" color="#28b389"></uni-icons>
+						<uni-icons type="download-filled" size="20" ></uni-icons>
 						<view class="text">联系客服</view>
 					</view>
 					<view class="right">
@@ -63,7 +63,7 @@ const callphone = () => {
 			<view class="list">
 				<view class="row">
 					<view class="left">
-						<uni-icons type="download-filled" size="20" color="#28b389"></uni-icons>
+						<uni-icons type="download-filled" size="20" ></uni-icons>
 						<view class="text">订阅更新</view>
 					</view>
 					<view class="right">
@@ -74,7 +74,7 @@ const callphone = () => {
 
 				<view class="row">
 					<view class="left">
-						<uni-icons type="download-filled" size="20" color="#28b389"></uni-icons>
+						<uni-icons type="download-filled" size="20" ></uni-icons>
 						<view class="text">常见问题</view>
 					</view>
 					<view class="right">
@@ -136,6 +136,11 @@ const callphone = () => {
 				}
 				.left {
 					display: flex;
+					:deep() {
+						.uni-icons{
+							color:$brand-theme-color !important;
+						}
+					}
 					.text {
 						padding-left: 20rpx;
 						color: #666;
