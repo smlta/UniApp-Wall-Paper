@@ -1,9 +1,16 @@
 <script setup>
 import { ref } from 'vue';
 const showmask = ref(true) // 预览遮罩层状态
+const pop = ref(null) //弹层实例
 const maskchange = () => {
 	showmask.value = !showmask.value
 } // 点击图片切换遮罩层状态
+const showpop = () => {
+	pop.value.open()
+} //显示图片信息弹层方法
+const closepop = () => {
+	pop.value.close()
+}
 </script>
 
 <template>
@@ -27,7 +34,7 @@ const maskchange = () => {
 		</uni-dateformat>
 	</view>
 	<view class="footer">
-		<view class="box">
+		<view class="box" @click="showpop">
 			<uni-icons type="info" size="28"></uni-icons>
 	        <view class="text">信息</view>	
 		</view>
@@ -40,6 +47,55 @@ const maskchange = () => {
 		    <view class="text">下载</view>	
 		</view>
 	</view>
+   <uni-popup type="bottom" ref="pop">
+	<view class="infopop">
+	   <view class="header">
+		   <view></view>
+		   <view class="text">壁纸信息</view>
+		   <view class="close" @click="closepop">
+			   <uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+		   </view>
+	   </view>
+	   <scroll-view scroll-y>
+		   <view class="content">
+			   <view class="row" >
+				   <view class="label">壁纸ID:</view>
+				   <text class="value" selectable>sad484494</text>
+			   </view>
+			   <view class="row" >
+			   	 <view class="publish">发布者:</view>
+			   	 <text class="value" selectable>水墨兰庭</text>
+			   </view>
+			   <view class="row" >
+			   	 <view class="label">评分:</view>
+			   	 <view class="value ratebox">
+					 <uni-rate readonly touchable value="2"></uni-rate>
+				     <text class="score">2分</text>
+				 </view>
+			   </view>
+			   <view class="row" >
+			   	   <view class="label">摘要:</view>
+			   	   <view class="value">
+			   	    父亲先前为乐队成员，杏珠很小的时候就在父亲影响下接触了吉他[1]，同时喜欢上了地雷系着装，形成了不同于同龄人的特殊兴趣与喜好。由于这些特殊的喜好，杏珠与同龄人格格不入，朋友很少，逐渐被孤立，因此杏珠学会了隐藏真实的自己，隐藏自己的兴趣爱好，隐瞒自己的私生活。
+			   	    
+			   	    阅读更多：隐杏珠（https://mzh.moegirl.org.cn/%E9%9A%90%E6%9D%8F%E7%8F%A0 ）
+			   	    本文引自萌娘百科(https://mzh.moegirl.org.cn )，文字内容默认使用《知识共享 署名-非商业性使用-相同方式共享 3.0 中国大陆》协议。
+			       </view>
+			   </view>
+			   <view class="row" >
+			   	   <view class="label">标签:</view>
+			   	   <view class="value tabs">
+			   	    <view class="tab" v-for="item in 3">LimeLight</view>
+			       </view>
+			   </view>
+			   <view class="copyright">
+			   声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱513894357@qq.com，管理将删除侵权壁纸，维护您的权益。
+			  </view>
+			   
+		   </view>
+	   </scroll-view>
+	</view>   
+   </uni-popup>
 </view>
 
 </template>
@@ -112,6 +168,84 @@ const maskchange = () => {
 				font-size: 26rpx;
 				color: $text-font-color-2;
 			}
+		}
+	}
+	.infopop {
+		background: #fff;
+		padding: 30rpx;
+		border-radius: 30rpx 30rpx 0 0;
+		overflow: hidden;
+		.header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.text {
+				color:$text-font-color-2;
+				font-size: 26rpx;
+			}
+		}
+		scroll-view {
+			max-height: 60vh;
+			.content {
+				.row {
+					display: flex;
+					padding: 16rpx 0;
+					font-size: 32rpx;
+					line-height: 1.7em;
+					.label {
+						color:$text-font-color-3;
+						width: 140rpx;
+						text-align: right;
+						font-size: 30rpx;
+					}
+					.value {
+						color: rgb(32, 32, 32);
+						width: 0;
+						flex: 1;
+						padding-left:20rpx;;
+						
+					}
+					.publish {
+						color:$text-font-color-3;
+						width: 140rpx;
+						text-align: right;
+						font-size: 30rpx;
+					}
+					
+					.ratebox {
+						display: flex;
+						align-items: center;
+						padding-left: 10rpx;
+						.score {
+							font-size: 26rpx;
+							color: $text-font-color-2;
+							padding-left: 20rpx;
+						}
+					}
+					.tabs {
+						display: flex;
+						flex-wrap: wrap;
+						.tab {
+							border: 1px solid $brand-theme-color;
+							margin: 0 10rpx 10rpx 0;
+							border-radius: 40rpx;
+							padding: 10rpx 30rpx;
+							line-height: 1em;
+							
+						}
+					}
+				}
+				.copyright {
+					font-size: 28rpx;
+					color: #666;
+					background: #F6F6F6;
+					border-radius: 10rpx;
+					margin: 20rpx 0;
+					padding: 20rpx;
+					line-height: 1.6em;
+				}
+			}
+			
 		}
 	}
 }
