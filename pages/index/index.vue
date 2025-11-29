@@ -1,7 +1,8 @@
 <script setup></script>
 
 <template>
-	<view class="homeLayout">
+	<view class="homeLayout pagebag">
+		<custom-nav-bar></custom-nav-bar>
 		<view class="banner">
 			<swiper circular indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff" autoplay>
 				<swiper-item v-for="item in 3">

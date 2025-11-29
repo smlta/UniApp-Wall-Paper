@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 const showmask = ref(true) // 预览遮罩层状态
-const pop = ref(null) //弹层实例
+const pop = ref(null) //信息弹层实例
+const ratepop = ref(null) //评分弹层实例
+const wallscore = ref(0) //壁纸评分
 const maskchange = () => {
 	showmask.value = !showmask.value
 } // 点击图片切换遮罩层状态
@@ -10,6 +12,15 @@ const showpop = () => {
 } //显示图片信息弹层方法
 const closepop = () => {
 	pop.value.close()
+}
+const showratepop = () => {
+	ratepop.value.open()
+} //显示评分弹层
+const closeratepop = () => {
+	ratepop.value.close()
+} //关闭评分弹层
+const confirmrate = () => {
+	console.log('确定评分')
 }
 </script>
 
@@ -38,7 +49,7 @@ const closepop = () => {
 			<uni-icons type="info" size="28"></uni-icons>
 	        <view class="text">信息</view>	
 		</view>
-		<view class="box">
+		<view class="box" @click="showratepop">
 			<uni-icons type="info" size="28"></uni-icons>
 		    <view class="text">5分</view>	
 		</view>
@@ -96,6 +107,24 @@ const closepop = () => {
 	   </scroll-view>
 	</view>   
    </uni-popup>
+   <uni-popup ref="ratepop">
+	   <view class="scorepopup">
+		   <view class="header">
+		   		   <view></view>
+		   		   <view class="text">壁纸信息</view>
+		   		   <view class="close" @click="closeratepop">
+		   			   <uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+		   		   </view>
+		   </view>
+		   <view class="content">
+			   <uni-rate  v-model="wallscore" allow-half></uni-rate>
+			   <text class="text">{{wallscore}}分</text>
+		   </view>
+		   <view class="footers">
+			   <button plain size="mini" :disabled="!wallscore" @click="confirmrate">确认评分</button>
+		   </view>
+	   </view>
+   </uni-popup> <!--评分弹层-->
 </view>
 
 </template>
@@ -175,15 +204,6 @@ const closepop = () => {
 		padding: 30rpx;
 		border-radius: 30rpx 30rpx 0 0;
 		overflow: hidden;
-		.header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			.text {
-				color:$text-font-color-2;
-				font-size: 26rpx;
-			}
-		}
 		scroll-view {
 			max-height: 60vh;
 			.content {
@@ -246,6 +266,41 @@ const closepop = () => {
 				}
 			}
 			
+		}
+		
+	}
+	.scorepopup {
+		background: #fff;
+		width: 70vw;
+		padding: 30rpx;
+		border-radius: 30rpx;
+		.content {
+			padding: 30rpx 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.text {
+				color: #FFCA3E;
+				padding-left: 10rpx;
+				width: 80rpx;
+				line-height: 1em;
+				text-align: right;
+			}
+		}
+		.footers {
+			padding: 10rpx 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.text {
+			color:$text-font-color-2;
+			font-size: 26rpx;
 		}
 	}
 }
