@@ -1,14 +1,19 @@
 <script setup>
+	import { ref } from 'vue';
+	let SYSTEM_INFO = uni.getSystemInfoSync()
+	let statusBarHeight = ref(SYSTEM_INFO.statusBarHeight) //微信状态栏高度
+	let {top,height} = uni.getMenuButtonBoundingClientRect() //获取微信胶囊信息对象,解构出top(胶囊顶到页面顶的距离)和height(胶囊高度)
+	let titleBarHeight = ref(height + (top - statusBarHeight.value) * 2)
 	
 </script>
 
 <template>
 	<view class="layout">
 		<view class="navbar">
-			<view class="statusbar">
+			<view class="statusbar" :style="{height:statusBarHeight + 'px'}">
 				
 			</view>
-			<view class="titlebar">
+			<view class="titlebar" :style="{height:titleBarHeight + 'px'}">
 				<view class="title">标题</view>
 				<view class="search">
 					<uni-icons type="search" color="#888" size="18" class="icon"></uni-icons>
@@ -45,6 +50,7 @@
 				color: $text-font-color-1;
 				position: absolute;
 				left: 0;
+				margin-left: 40rpx;
 				}
 				.search {
 					width: 220rpx;
