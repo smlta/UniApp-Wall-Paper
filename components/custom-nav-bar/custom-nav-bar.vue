@@ -1,19 +1,17 @@
 <script setup>
 	import { ref } from 'vue';
-	let SYSTEM_INFO = uni.getSystemInfoSync()
-	let statusBarHeight = ref(SYSTEM_INFO.statusBarHeight) //微信状态栏高度
-	let {top,height} = uni.getMenuButtonBoundingClientRect() //获取微信胶囊信息对象,解构出top(胶囊顶到页面顶的距离)和height(胶囊高度)
-	let titleBarHeight = ref(height + (top - statusBarHeight.value) * 2)
+	import {getStatusBarHeight,getTitleBarHeight,getLeftIconLeft,getNavBarHeight} from '@/utils/system.js'
+	
 	
 </script>
 
 <template>
 	<view class="layout">
 		<view class="navbar">
-			<view class="statusbar" :style="{height:statusBarHeight + 'px'}">
+			<view class="statusbar" :style="{height:getStatusBarHeight() + 'px'}">
 				
 			</view>
-			<view class="titlebar" :style="{height:titleBarHeight + 'px'}">
+			<view class="titlebar" :style="{height:getTitleBarHeight() + 'px',marginLeft:getLeftIconLeft() + 'px'}" >
 				<view class="title">标题</view>
 				<view class="search">
 					<uni-icons type="search" color="#888" size="18" class="icon"></uni-icons>
