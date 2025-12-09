@@ -1,8 +1,14 @@
-<script setup></script>
+<script setup>
+	const gopreview = () => {
+		uni.navigateTo({
+			url:'/pages/preview/preview'
+		})
+	} // 跳转预览页
+</script>
 
 <template>
 	<view class="homeLayout pagebag">
-		<custom-nav-bar></custom-nav-bar>
+		<custom-nav-bar title="推荐"></custom-nav-bar>
 		<view class="banner">
 			<swiper circular indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff" autoplay>
 				<swiper-item v-for="item in 3">
@@ -17,7 +23,11 @@
 			</view>
 			<view class="center">
 				<swiper vertical autoplay interval="1500" duration="300" circular>
-					<swiper-item>Ciallo～ (∠・ω< )⌒★</swiper-item>
+					<swiper-item v-for="item in 4">
+						<navigator url="/pages/notice/detail">
+						Ciallo～ (∠・ω< )⌒★
+						</navigator>
+					</swiper-item>
 				</swiper>
 			</view>
 			<view class="right">
@@ -38,7 +48,7 @@
 			</common-title>
 			<view class="content">
 				<scroll-view scroll-x>
-					<view class="box" v-for="item in 8">
+					<view class="box" v-for="item in 8" @click="gopreview()">
 						<image src="/common/images/banner1.jpg"></image>
 					</view>
 				</scroll-view>

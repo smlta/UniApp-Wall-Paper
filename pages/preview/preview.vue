@@ -1,4 +1,5 @@
 <script setup>
+import {getStatusBarHeight} from '@/utils/system.js'
 import { ref } from 'vue';
 const showmask = ref(true) // 预览遮罩层状态
 const pop = ref(null) //信息弹层实例
@@ -22,6 +23,9 @@ const closeratepop = () => {
 const confirmrate = () => {
 	console.log('确定评分')
 }
+const goback = () => {
+	uni.navigateBack()
+} // 返回上一页
 </script>
 
 <template>
@@ -33,7 +37,8 @@ const confirmrate = () => {
 	</swiper>
 </view>
 <view class="mask" v-if="showmask">
-	<view class="goBack">
+	<view class="goBack" :style="{top:getStatusBarHeight() + 'px'}" @click="goback()">
+		<uni-icons type="back" color="#fff" size="20"></uni-icons>
 	</view>
 	<view class="count">4/8</view>
 	<view class="time">
@@ -152,7 +157,17 @@ const confirmrate = () => {
 		color: #fff;
 	}
 	.goBack {
-		
+		width: 30px;
+		height: 30px;
+		background: rgba(0, 0, 0, 0.5);
+		left: 30rpx;
+		margin-left: 0;
+		border-radius: 100px;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		backdrop-filter: blur(10rpx);
 	}
 	.count {
 		top: 10vh;

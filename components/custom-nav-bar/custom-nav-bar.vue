@@ -1,7 +1,12 @@
 <script setup>
 	import { ref } from 'vue';
 	import {getStatusBarHeight,getTitleBarHeight,getLeftIconLeft,getNavBarHeight} from '@/utils/system.js'
-	
+	 defineProps({
+		 title: {
+			 type:String,
+			 default: ''
+		 }
+	 })
 	
 </script>
 
@@ -12,7 +17,7 @@
 				
 			</view>
 			<view class="titlebar" :style="{height:getTitleBarHeight() + 'px',marginLeft:getLeftIconLeft() + 'px'}" >
-				<view class="title">标题</view>
+				<view class="title">{{title}}</view>
 				<view class="search">
 					<uni-icons type="search" color="#888" size="18" class="icon"></uni-icons>
 					<text class="text">搜索</text>

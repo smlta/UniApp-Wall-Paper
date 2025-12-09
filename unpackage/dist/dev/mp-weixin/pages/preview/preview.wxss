@@ -44,6 +44,20 @@
   margin: auto;
   color: #fff;
 }
+.mask .goBack.data-v-2dad6c07 {
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.5);
+  left: 30rpx;
+  margin-left: 0;
+  border-radius: 100px;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(10rpx);
+          backdrop-filter: blur(10rpx);
+}
 .mask .count.data-v-2dad6c07 {
   top: 10vh;
   background: rgba(0, 0, 0, 0.3);

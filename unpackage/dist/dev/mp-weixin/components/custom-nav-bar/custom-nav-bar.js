@@ -11,17 +11,24 @@ if (!Math) {
 }
 const _sfc_main = {
   __name: "custom-nav-bar",
+  props: {
+    title: {
+      type: String,
+      default: ""
+    }
+  },
   setup(__props) {
     return (_ctx, _cache) => {
       return {
         a: common_vendor.unref(utils_system.getStatusBarHeight)() + "px",
-        b: common_vendor.p({
+        b: common_vendor.t(__props.title),
+        c: common_vendor.p({
           type: "search",
           color: "#888",
           size: "18"
         }),
-        c: common_vendor.unref(utils_system.getTitleBarHeight)() + "px",
-        d: common_vendor.unref(utils_system.getLeftIconLeft)() + "px"
+        d: common_vendor.unref(utils_system.getTitleBarHeight)() + "px",
+        e: common_vendor.unref(utils_system.getLeftIconLeft)() + "px"
       };
     };
   }

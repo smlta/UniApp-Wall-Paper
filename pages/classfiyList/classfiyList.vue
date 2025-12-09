@@ -5,7 +5,7 @@
 <template>
 <view class="classifylist">
  <view class="content">
-  <navigator class="item" v-for="item in 3">
+  <navigator class="item" v-for="item in 3" url="/pages/preview/preview">
    <image src="/common/images/kirarashss-2.png"></image>
   </navigator>
  </view>

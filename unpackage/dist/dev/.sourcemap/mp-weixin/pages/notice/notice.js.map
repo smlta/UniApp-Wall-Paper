@@ -1,0 +1,1 @@
+{"version":3,"file":"notice.js","sources":["D:/Hbuilder/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvbm90aWNlL25vdGljZS52dWU"],"sourcesContent":["import MiniProgramPage from 'C:/Users/林家明/Desktop/前端文件/UniappCode/wall-paper/pages/notice/notice.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;AACA,GAAG,WAAW,eAAe;"}
