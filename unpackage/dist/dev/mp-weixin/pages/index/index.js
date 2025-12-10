@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 if (!Array) {
   const _easycom_custom_nav_bar2 = common_vendor.resolveComponent("custom-nav-bar");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -20,51 +19,79 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    const bannerList = common_vendor.ref([]);
+    const dayList = common_vendor.ref([]);
     const gopreview = () => {
       common_vendor.index.navigateTo({
         url: "/pages/preview/preview"
       });
     };
+    const getBanner = async () => {
+      const res = await common_vendor.index.request({
+        url: "https://tea.qingnian8.com/api/bizhi/homeBanner",
+        header: {
+          "access-key": "Scpsmlt"
+        }
+      });
+      if (res.data.errCode === 0) {
+        bannerList.value = res.data.data;
+      }
+    };
+    const getDayRecommend = async () => {
+      const result = await common_vendor.index.request({
+        url: "https://tea.qingnian8.com/api/bizhi/randomWall",
+        header: { "access-key": "Scpsmlt" }
+      });
+      if (result.data.errCode === 0) {
+        dayList.value = result.data.data;
+      }
+    };
+    getBanner();
+    getDayRecommend();
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
           title: "推荐"
         }),
-        b: common_vendor.f(3, (item, k0, i0) => {
-          return {};
+        b: common_vendor.f(bannerList.value, (item, k0, i0) => {
+          return {
+            a: item.picurl,
+            b: item._id
+          };
         }),
-        c: common_assets._imports_0,
-        d: common_vendor.p({
+        c: common_vendor.p({
           size: "20",
           type: "sound-filled"
         }),
-        e: common_vendor.f(4, (item, k0, i0) => {
+        d: common_vendor.f(4, (item, k0, i0) => {
           return {};
         }),
-        f: common_vendor.p({
+        e: common_vendor.p({
           type: "right",
           size: "16",
           color: "#333"
         }),
-        g: common_vendor.p({
+        f: common_vendor.p({
           type: "calendar-filled",
           size: "30"
         }),
-        h: common_vendor.p({
+        g: common_vendor.p({
           date: /* @__PURE__ */ new Date(),
           format: "dd日"
         }),
-        i: common_vendor.f(8, (item, k0, i0) => {
-          return {};
+        h: common_vendor.f(dayList.value, (item, k0, i0) => {
+          return {
+            a: item.smallPicurl,
+            b: item.classid,
+            c: common_vendor.o(($event) => gopreview(), item.classid)
+          };
         }),
-        j: common_assets._imports_1,
-        k: common_vendor.o(($event) => gopreview()),
-        l: common_vendor.f(8, (item, k0, i0) => {
+        i: common_vendor.f(8, (item, k0, i0) => {
           return {
             a: "1cf27b2a-7-" + i0
           };
         }),
-        m: common_vendor.p({
+        j: common_vendor.p({
           isMore: true
         })
       };

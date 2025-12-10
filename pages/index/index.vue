@@ -1,9 +1,52 @@
 <script setup>
+	import { ref } from 'vue'
+	const bannerList = ref([]) //横播图
+	const dayList = ref([]) //每日推荐图片
+	const noticeList = ref([]) //通知列表
 	const gopreview = () => {
 		uni.navigateTo({
 			url:'/pages/preview/preview'
 		})
 	} // 跳转预览页
+	const getBanner = async () => {
+		const res = await uni.request({
+			url: 'https://tea.qingnian8.com/api/bizhi/homeBanner',
+			header:{
+				'access-key':'Scpsmlt'
+			}
+		})
+	    if(res.data.errCode === 0)
+		{
+			bannerList.value = res.data.data
+		} //如果成功
+	} // 获取轮播图
+	const getDayRecommend = async () => {
+	const result = await uni.request({
+			url: 'https://tea.qingnian8.com/api/bizhi/randomWall',
+			header:{'access-key':'Scpsmlt'}
+		})
+		if(result.data.errCode === 0)
+		{
+			dayList.value = result.data.data
+		} //如果成功
+	} //获取每日推荐壁纸
+	const getnoticeList = async () => {
+	const res = await	uni.request({
+			url: 'https://tea.qingnian8.com/api/bizhi/wallNewsList',
+			data: {
+				select: true
+			},
+			header: {
+			 'access-Key':'Scpsmlt'
+			}
+		})
+		if(res.data.errCode === 0) {
+			noticeList.value = res.data.data
+		}
+	} // 获取通知列表
+	getBanner()
+	getDayRecommend()
+	getnoticeList()
 </script>
 
 <template>
@@ -11,8 +54,8 @@
 		<custom-nav-bar title="推荐"></custom-nav-bar>
 		<view class="banner">
 			<swiper circular indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff" autoplay>
-				<swiper-item v-for="item in 3">
-					<image src="/common/images/banner2.jpg"></image>
+				<swiper-item v-for="item in bannerList" :key="item._id">
+					<image :src="item.picurl"></image>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -23,9 +66,9 @@
 			</view>
 			<view class="center">
 				<swiper vertical autoplay interval="1500" duration="300" circular>
-					<swiper-item v-for="item in 4">
+					<swiper-item v-for="item in noticeList" :key="item._id">
 						<navigator url="/pages/notice/detail">
-						Ciallo～ (∠・ω< )⌒★
+						 {{item.title}}
 						</navigator>
 					</swiper-item>
 				</swiper>
@@ -48,8 +91,8 @@
 			</common-title>
 			<view class="content">
 				<scroll-view scroll-x>
-					<view class="box" v-for="item in 8" @click="gopreview()">
-						<image src="/common/images/banner1.jpg"></image>
+					<view class="box" v-for="item in dayList" :key="item.classid" @click="gopreview()">
+						<image :src="item.smallPicurl"></image>
 					</view>
 				</scroll-view>
 			</view>
