@@ -1,5 +1,6 @@
 <script setup>
 	import { ref } from 'vue'
+	import {getBannerList,getDayList,getDayNotice} from '@/API/api.js'
 	const bannerList = ref([]) //横播图
 	const dayList = ref([]) //每日推荐图片
 	const noticeList = ref([]) //通知列表
@@ -9,40 +10,16 @@
 		})
 	} // 跳转预览页
 	const getBanner = async () => {
-		const res = await uni.request({
-			url: 'https://tea.qingnian8.com/api/bizhi/homeBanner',
-			header:{
-				'access-key':'Scpsmlt'
-			}
-		})
-	    if(res.data.errCode === 0)
-		{
-			bannerList.value = res.data.data
-		} //如果成功
+		const res = await getBannerList()
+		bannerList.value = res.data.data
 	} // 获取轮播图
 	const getDayRecommend = async () => {
-	const result = await uni.request({
-			url: 'https://tea.qingnian8.com/api/bizhi/randomWall',
-			header:{'access-key':'Scpsmlt'}
-		})
-		if(result.data.errCode === 0)
-		{
-			dayList.value = result.data.data
-		} //如果成功
+	 const result = await getDayList()
+	 dayList.value = result.data.data
 	} //获取每日推荐壁纸
 	const getnoticeList = async () => {
-	const res = await	uni.request({
-			url: 'https://tea.qingnian8.com/api/bizhi/wallNewsList',
-			data: {
-				select: true
-			},
-			header: {
-			 'access-Key':'Scpsmlt'
-			}
-		})
-		if(res.data.errCode === 0) {
-			noticeList.value = res.data.data
-		}
+	const res = await getDayNotice()
+	noticeList.value = res.data.data
 	} // 获取通知列表
 	getBanner()
 	getDayRecommend()
