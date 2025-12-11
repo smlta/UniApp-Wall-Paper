@@ -3,7 +3,7 @@
 		<navigator url="/pages/classfiyList/classfiyList" class="box" v-if="!isMore">
 			<image :src="item.picurl" class="picture"></image>
 			<view class="mask">{{item.name}}</view>
-			<view class="tab">Tab标签</view>
+			<view class="tab">{{compareTimestamp(item.updateTime)}}</view>
 		</navigator>
 		<navigator class="box more" v-if="isMore" url="/pages/classify/classify" open-type="reLaunch">
 			<image src="/common/images/kirarashss-1.png" class="picture"></image>
@@ -16,6 +16,7 @@
 </template>
 
 <script setup>
+	import {compareTimestamp} from '@/utils/common.js' //导入时间戳格式化函数
 const props = defineProps({
 	isMore: {
 		type: Boolean,
@@ -27,7 +28,7 @@ const props = defineProps({
 		  return {
 			name:"默认名称",
 			picurl:"https://img0.baidu.com/it/u=498678815,3504514863&fm=253&fmt=auto&app=138&f=JPEG?w=712&h=427",
-			updateTime:Date.now() - 1000 * 60 * 60 * 5
+			updateTime:Date.now()
 		  }
 		} //props默认值为对象要这么写
 	}
