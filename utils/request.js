@@ -1,13 +1,14 @@
 //封装公用请求方法
 export const request = (config={}) => {
 	const BASE_URL = 'https://tea.qingnian8.com/api/bizhi' //基地址
-	let {url,header= {},method="GET"} = config //解构配置对象,header默认为空对象,方法默认为GET
+	let {url,header= {},method="GET",data={}} = config //解构配置对象,header默认为空对象,方法默认为GET
 	header['access-Key'] = 'Scpsmlt'
 	return new Promise((resolve,reject) => {
 		uni.request({
 			url:BASE_URL + url,
 			method,
 			header,
+			data,
 			success:res => {
 				if(res.data.errCode === 0)
 				{

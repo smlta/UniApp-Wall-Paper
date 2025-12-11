@@ -1,9 +1,10 @@
 <script setup>
 	import { ref } from 'vue'
-	import {getBannerList,getDayList,getDayNotice} from '@/API/api.js'
+	import {getBannerList,getDayList,getDayNotice,getWallCategory} from '@/API/api.js'
 	const bannerList = ref([]) //横播图
 	const dayList = ref([]) //每日推荐图片
 	const noticeList = ref([]) //通知列表
+	const themeList = ref([]) //专题精选列表
 	const gopreview = () => {
 		uni.navigateTo({
 			url:'/pages/preview/preview'
@@ -18,12 +19,22 @@
 	 dayList.value = result.data.data
 	} //获取每日推荐壁纸
 	const getnoticeList = async () => {
-	const res = await getDayNotice()
+	const res = await getDayNotice({
+		data: {
+			select:true
+		}
+	})
 	noticeList.value = res.data.data
 	} // 获取通知列表
+	
+	const getCategory = async () => {
+		const {data:{data}} = await getWallCategory({select:true})
+		themeList.value = data
+	}// 获取壁纸分类列表
 	getBanner()
 	getDayRecommend()
 	getnoticeList()
+	getCategory()
 </script>
 
 <template>
@@ -80,7 +91,7 @@
 				<template #custom><navigator url="" class="more">More+</navigator></template>
 			</common-title>
 			<view class="content">
-				<theme-item v-for="item in 8"></theme-item>
+				<theme-item v-for="item in themeList" :key="item._id" :item="item"></theme-item>
 				<theme-item :isMore="true"></theme-item>
 			</view>
 		</view>

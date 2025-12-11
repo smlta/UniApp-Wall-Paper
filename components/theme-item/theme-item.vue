@@ -1,8 +1,8 @@
 <template>
 	<view class="theme-item">
 		<navigator url="/pages/classfiyList/classfiyList" class="box" v-if="!isMore">
-			<image src="/common/images/preview2.jpg" class="picture"></image>
-			<view class="mask">mask</view>
+			<image :src="item.picurl" class="picture"></image>
+			<view class="mask">{{item.name}}</view>
 			<view class="tab">Tab标签</view>
 		</navigator>
 		<navigator class="box more" v-if="isMore" url="/pages/classify/classify" open-type="reLaunch">
@@ -20,6 +20,16 @@ const props = defineProps({
 	isMore: {
 		type: Boolean,
 		default: false
+	},
+	item: {
+		type:Object,
+		default(){
+		  return {
+			name:"默认名称",
+			picurl:"https://img0.baidu.com/it/u=498678815,3504514863&fm=253&fmt=auto&app=138&f=JPEG?w=712&h=427",
+			updateTime:Date.now() - 1000 * 60 * 60 * 5
+		  }
+		} //props默认值为对象要这么写
 	}
 });
 </script>

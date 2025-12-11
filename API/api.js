@@ -15,8 +15,16 @@ export const getDayList = () => {
 }
 
 //获取每日通知
-export const getDayNotice = () => {
+export const getDayNotice = (data) => {
 	return request({
-		url: '/wallNewsList'
+		url: '/wallNewsList',
+		data
+	})
+}
+//获取壁纸分类列表
+export const getWallCategory = (data) => {
+	return request({
+		url: '/classify',
+		data
 	})
 }
