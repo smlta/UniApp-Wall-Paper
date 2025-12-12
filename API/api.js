@@ -28,3 +28,11 @@ export const getWallCategory = (data) => {
 		data
 	})
 }
+
+//获取某分类的所有壁纸
+export const getCategoryList = (data) => {
+	return request({
+		url: '/wallList',
+		data
+	})
+}

@@ -1,6 +1,6 @@
 <template>
 	<view class="theme-item">
-		<navigator url="/pages/classfiyList/classfiyList" class="box" v-if="!isMore">
+		<navigator :url="'/pages/classfiyList/classfiyList?_id='+ item._id +'&name='+item.name" class="box" v-if="!isMore">
 			<image :src="item.picurl" class="picture"></image>
 			<view class="mask">{{item.name}}</view>
 			<view class="tab">{{compareTimestamp(item.updateTime)}}</view>
