@@ -1,11 +1,15 @@
 <script setup>
  import {ref} from 'vue'
  import {getCategoryList} from '@/API/api.js'
- import {onLoad} from '@dcloudio/uni-app'
+ import {onLoad,onReachBottom} from '@dcloudio/uni-app'
+ const noData = ref(false)
  const query = {
 	 classid: '',
-	 name: ''
+	 name: '',
+	 pageSize:12,
+	 pageNum:1
  } //查询参数对象
+  const categoryList = ref([]) //壁纸列表
  onLoad((e) => {
 	 const {_id=null,name=null} = e //解构传递的分类id和分类名字
 	  query.classid = _id
@@ -13,14 +17,23 @@
 	 uni.setNavigationBarTitle({
 	 	title:name
 	 })
-	 getSomeWallList(query) //因为setup钩子比onload钩子先执行,所以需要在onload里发起请求获取数据,
-	                        //如果在setup里发起请求,会导致发起请求时,参数对象未被赋值导致classid为空
-	 
+	 getSomeWallList() //因为setup钩子比onload钩子先执行,所以需要在onload里发起请求获取数据,
+	                        //如果在setup里发起请求,会导致发起请求时,参数对象未被赋值导致classid为空	 
  }) //页面加载时获取name设置导航栏标题,初始化参数对象发起请求(onload),获取数据渲染
- const categoryList = ref([]) //壁纸列表
- const getSomeWallList = async (que) => {
-	 const {data:{data}} = await getCategoryList(que)
-	 categoryList.value = data
+ onReachBottom(() => {
+	 if(noData.value) return
+	 query.pageNum++
+	 getSomeWallList()
+ })
+ 
+ const getSomeWallList = async () => {
+	 const {data:{data}} = await getCategoryList(query)
+	 categoryList.value = [...categoryList.value,...data]
+	 if(query.pageSize > data.length)
+	 {
+		 noData.value = true
+	 } //如果当前获取的数据不足一页,说明是最后一页再次触底时不再发起请求
+	 
  } //获取某分类的所有壁纸
  
 </script>
