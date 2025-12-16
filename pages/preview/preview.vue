@@ -6,6 +6,7 @@ const currentId = ref(null) //传递过来的壁纸Id
 const currentIndex = ref(null) //当前item的索引
 const StorageList = ref([]) //缓存壁纸列表
 const bigWallList = ref([]) //大图壁纸列表
+const readImag =ref([]) //图片缓存数组.用于图片懒加载
 StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存壁纸数组如果没有获取到返回空数组
  bigWallList.value = StorageList.value.map(item => {
 	 return {...item,
@@ -14,6 +15,7 @@ StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存�
  
  const pagealter = (cpage) => {
 	 currentIndex.value = cpage.detail.current 
+	 saveImageIndex() //图片改变保存前后索引
 	 //轮播项改变时,拿到轮播项的索引将其赋值给currentIndex
  } 
 
@@ -21,9 +23,21 @@ onLoad((e) => {
 	currentId.value = e.id
 	currentIndex.value =  bigWallList.value.findIndex(item => item._id === currentId.value)
 	//根据传过来的Id获取该壁纸在数组中的索引
+	saveImageIndex()
 })
 
-
+const saveImageIndex = () => {
+	readImag.value.push(
+	currentIndex.value<=0?bigWallList.value.length -1 : currentIndex.value - 1,
+	currentIndex.value,
+	currentIndex.value>=bigWallList.value.length - 1 ? 0 : currentIndex.value + 1
+	) //当访问图片时将当前图片和图片的前后一张的索引放进缓存数组
+	
+	readImag.value = [...new Set(readImag.value)] 
+	//利用set对象的特性去除重复的索引
+	
+	
+}  //该方法用来保存当前图片的索引和上一张和下一张的索引
 
 
 const showmask = ref(true) // 预览遮罩层状态
@@ -57,8 +71,8 @@ const goback = () => {
 <view class="preview">
 	<!--swiper的 current属性为当前item轮播项的索引-->
 	<swiper circular :current="currentIndex" @change="pagealter"> <!-- 轮播图改变时触发,传递事件参数为当前item的索引-->
-		<swiper-item v-for="item in bigWallList" :key="item._id">
-			<image :src="item.smallPicurl" mode="aspectFill" @click="maskchange"></image>
+		<swiper-item v-for="(item,index) in bigWallList" :key="item._id">
+			<image :src="item.smallPicurl" mode="aspectFill" @click="maskchange" v-if="readImag.includes(index)"></image>
 		</swiper-item>
 	</swiper>
 </view>
@@ -66,7 +80,7 @@ const goback = () => {
 	<view class="goBack" :style="{top:getStatusBarHeight() + 'px'}" @click="goback()">
 		<uni-icons type="back" color="#fff" size="20"></uni-icons>
 	</view>
-	<view class="count">{{currentIndex + 1}}/8</view>
+	<view class="count">{{currentIndex + 1}}/{{bigWallList.length}}</view>
 	<view class="time">
 		<uni-dateformat :date="new Date()" format="hh:mm">
 		</uni-dateformat>
