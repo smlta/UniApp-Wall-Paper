@@ -49,7 +49,7 @@ const _sfc_main = {
         a: common_vendor.f(3, (item, k0, i0) => {
           return {};
         }),
-        b: common_assets._imports_1,
+        b: common_assets._imports_0,
         c: common_vendor.o(maskchange),
         d: showmask.value
       }, showmask.value ? {

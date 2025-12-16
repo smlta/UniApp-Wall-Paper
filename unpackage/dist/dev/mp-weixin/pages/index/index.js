@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const API_api = require("../../API/api.js");
 if (!Array) {
   const _easycom_custom_nav_bar2 = common_vendor.resolveComponent("custom-nav-bar");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -21,33 +22,37 @@ const _sfc_main = {
   setup(__props) {
     const bannerList = common_vendor.ref([]);
     const dayList = common_vendor.ref([]);
+    const noticeList = common_vendor.ref([]);
+    const themeList = common_vendor.ref([]);
     const gopreview = () => {
       common_vendor.index.navigateTo({
         url: "/pages/preview/preview"
       });
     };
     const getBanner = async () => {
-      const res = await common_vendor.index.request({
-        url: "https://tea.qingnian8.com/api/bizhi/homeBanner",
-        header: {
-          "access-key": "Scpsmlt"
-        }
-      });
-      if (res.data.errCode === 0) {
-        bannerList.value = res.data.data;
-      }
+      const res = await API_api.getBannerList();
+      bannerList.value = res.data.data;
     };
     const getDayRecommend = async () => {
-      const result = await common_vendor.index.request({
-        url: "https://tea.qingnian8.com/api/bizhi/randomWall",
-        header: { "access-key": "Scpsmlt" }
+      const result = await API_api.getDayList();
+      dayList.value = result.data.data;
+    };
+    const getnoticeList = async () => {
+      const res = await API_api.getDayNotice({
+        data: {
+          select: true
+        }
       });
-      if (result.data.errCode === 0) {
-        dayList.value = result.data.data;
-      }
+      noticeList.value = res.data.data;
+    };
+    const getCategory = async () => {
+      const { data: { data } } = await API_api.getWallCategory({ select: true });
+      themeList.value = data;
     };
     getBanner();
     getDayRecommend();
+    getnoticeList();
+    getCategory();
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
@@ -63,8 +68,11 @@ const _sfc_main = {
           size: "20",
           type: "sound-filled"
         }),
-        d: common_vendor.f(4, (item, k0, i0) => {
-          return {};
+        d: common_vendor.f(noticeList.value, (item, k0, i0) => {
+          return {
+            a: common_vendor.t(item.title),
+            b: item._id
+          };
         }),
         e: common_vendor.p({
           type: "right",
@@ -86,9 +94,13 @@ const _sfc_main = {
             c: common_vendor.o(($event) => gopreview(), item.classid)
           };
         }),
-        i: common_vendor.f(8, (item, k0, i0) => {
+        i: common_vendor.f(themeList.value, (item, k0, i0) => {
           return {
-            a: "1cf27b2a-7-" + i0
+            a: item._id,
+            b: "1cf27b2a-7-" + i0,
+            c: common_vendor.p({
+              item
+            })
           };
         }),
         j: common_vendor.p({

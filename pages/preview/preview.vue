@@ -1,6 +1,31 @@
 <script setup>
 import {getStatusBarHeight} from '@/utils/system.js'
 import { ref } from 'vue';
+import {onLoad} from '@dcloudio/uni-app'
+const currentId = ref(null) //传递过来的壁纸Id
+const currentIndex = ref(null) //当前item的索引
+const StorageList = ref([]) //缓存壁纸列表
+const bigWallList = ref([]) //大图壁纸列表
+StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存壁纸数组如果没有获取到返回空数组
+ bigWallList.value = StorageList.value.map(item => {
+	 return {...item,
+	 smallPicurl:item.smallPicurl.replace('_small.webp','.jpg')}
+ })
+ 
+ const pagealter = (cpage) => {
+	 currentIndex.value = cpage.detail.current 
+	 //轮播项改变时,拿到轮播项的索引将其赋值给currentIndex
+ } 
+
+onLoad((e) => {
+	currentId.value = e.id
+	currentIndex.value =  bigWallList.value.findIndex(item => item._id === currentId.value)
+	//根据传过来的Id获取该壁纸在数组中的索引
+})
+
+
+
+
 const showmask = ref(true) // 预览遮罩层状态
 const pop = ref(null) //信息弹层实例
 const ratepop = ref(null) //评分弹层实例
@@ -30,9 +55,10 @@ const goback = () => {
 
 <template>
 <view class="preview">
-	<swiper circular>
-		<swiper-item v-for="item in 3">
-			<image src="/common/images/kirarashss-1.png" mode="aspectFill" @click="maskchange"></image>
+	<!--swiper的 current属性为当前item轮播项的索引-->
+	<swiper circular :current="currentIndex" @change="pagealter"> <!-- 轮播图改变时触发,传递事件参数为当前item的索引-->
+		<swiper-item v-for="item in bigWallList" :key="item._id">
+			<image :src="item.smallPicurl" mode="aspectFill" @click="maskchange"></image>
 		</swiper-item>
 	</swiper>
 </view>
@@ -40,7 +66,7 @@ const goback = () => {
 	<view class="goBack" :style="{top:getStatusBarHeight() + 'px'}" @click="goback()">
 		<uni-icons type="back" color="#fff" size="20"></uni-icons>
 	</view>
-	<view class="count">4/8</view>
+	<view class="count">{{currentIndex + 1}}/8</view>
 	<view class="time">
 		<uni-dateformat :date="new Date()" format="hh:mm">
 		</uni-dateformat>

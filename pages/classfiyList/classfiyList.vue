@@ -33,20 +33,29 @@
 	 {
 		 noData.value = true
 	 } //如果当前获取的数据不足一页,说明是最后一页再次触底时不再发起请求
-	 
+	 uni.setStorageSync("cate_wall",categoryList.value) //将获取的壁纸数组本地储存
  } //获取某分类的所有壁纸
  
 </script>
 
 <template>
+	
+	
 <view class="classifylist">
+	<view class="loadingLayout" v-if="!categoryList.length&&!noData"> <!--刚进入页面显示加载框-->
+		<uni-load-more status="loading"></uni-load-more>
+	</view>
  <view class="content">
-  <navigator class="item" v-for="item in categoryList" :key="item._id" url="/pages/preview/preview">
+  <navigator class="item" v-for="item in categoryList" :key="item._id" :url="'/pages/preview/preview?id=' +item._id">
    <image :src="item.smallPicurl"></image>
-  </navigator>
+  </navigator> <!--点击壁纸时传递壁纸id-->
  </view>
 </view>
-
+<view class="loadingLayout" v-if="categoryList.length || noData"> 
+		<!--这里categoryList的作用是当进入页面时先不显示加载组件,当数组不为空时才显示加载组件-->
+		<!--如果等待一会后API返回空数组,即没有更多数据也会显示加载组件-->
+		<uni-load-more :status="noData?'noMore':'loading'"></uni-load-more> <!--如果没有更多数据就显示'没有更多数据'-->
+	</view>
 </template>
 
 <style lang="scss" scoped>
