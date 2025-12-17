@@ -36,3 +36,11 @@ export const getCategoryList = (data) => {
 		data
 	})
 }
+
+//设置壁纸评分
+export const setWallScore = (data) => {
+	return request({
+		url: '/setupScore',
+		data
+	})
+}

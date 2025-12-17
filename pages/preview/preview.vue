@@ -2,6 +2,7 @@
 import {getStatusBarHeight} from '@/utils/system.js'
 import { ref } from 'vue';
 import {onLoad} from '@dcloudio/uni-app'
+import {setWallScore} from '@/API/api.js'
 const currentId = ref(null) //传递过来的壁纸Id
 const currentIndex = ref(null) //当前item的索引
 const StorageList = ref([]) //缓存壁纸列表
@@ -62,8 +63,17 @@ const showratepop = () => {
 const closeratepop = () => {
 	ratepop.value.close()
 } //关闭评分弹层
-const confirmrate = () => {
-	console.log('确定评分')
+const confirmrate = async () => {
+	let {classid,_id} = wallInfo.value //点击评分时,从当前壁纸信息对象中解构当前壁纸的参数
+	 const res = await setWallScore({classid,wallId:_id,userScore:wallscore.value})
+	 if(res.data.errCode === 0) {
+		 uni.showToast({
+		 	title:'评分成功',
+			icon:'none'
+		 })
+		 closeratepop() //关闭弹层
+		 wallscore.value = 0 //重置评分
+	 }
 }
 const goback = () => {
 	uni.navigateBack()
