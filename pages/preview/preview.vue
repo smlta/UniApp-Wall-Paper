@@ -7,6 +7,7 @@ const currentIndex = ref(null) //当前item的索引
 const StorageList = ref([]) //缓存壁纸列表
 const bigWallList = ref([]) //大图壁纸列表
 const readImag =ref([]) //图片缓存数组.用于图片懒加载
+const wallInfo = ref(null) //壁纸信息对象
 StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存壁纸数组如果没有获取到返回空数组
  bigWallList.value = StorageList.value.map(item => {
 	 return {...item,
@@ -16,6 +17,7 @@ StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存�
  const pagealter = (cpage) => {
 	 currentIndex.value = cpage.detail.current 
 	 saveImageIndex() //图片改变保存前后索引
+	 wallInfo.value = bigWallList.value[currentIndex.value] //壁纸改变时,改变壁纸信息对象
 	 //轮播项改变时,拿到轮播项的索引将其赋值给currentIndex
  } 
 
@@ -23,6 +25,7 @@ onLoad((e) => {
 	currentId.value = e.id
 	currentIndex.value =  bigWallList.value.findIndex(item => item._id === currentId.value)
 	//根据传过来的Id获取该壁纸在数组中的索引
+	wallInfo.value = bigWallList.value[currentIndex.value] //进入页面时通过壁纸索引在列表中获取相应的壁纸信息对象
 	saveImageIndex()
 })
 
@@ -116,32 +119,29 @@ const goback = () => {
 		   <view class="content">
 			   <view class="row" >
 				   <view class="label">壁纸ID:</view>
-				   <text class="value" selectable>sad484494</text>
+				   <text class="value" selectable>{{wallInfo.classid}}</text>
 			   </view>
 			   <view class="row" >
 			   	 <view class="publish">发布者:</view>
-			   	 <text class="value" selectable>水墨兰庭</text>
+			   	 <text class="value" selectable>{{wallInfo.nickname}}</text>
 			   </view>
 			   <view class="row" >
 			   	 <view class="label">评分:</view>
 			   	 <view class="value ratebox">
-					 <uni-rate readonly touchable value="2"></uni-rate>
-				     <text class="score">2分</text>
+					 <uni-rate readonly touchable :value="wallInfo.score"></uni-rate>
+				     <text class="score">{{wallInfo.score}}分</text>
 				 </view>
 			   </view>
 			   <view class="row" >
 			   	   <view class="label">摘要:</view>
 			   	   <view class="value">
-			   	    父亲先前为乐队成员，杏珠很小的时候就在父亲影响下接触了吉他[1]，同时喜欢上了地雷系着装，形成了不同于同龄人的特殊兴趣与喜好。由于这些特殊的喜好，杏珠与同龄人格格不入，朋友很少，逐渐被孤立，因此杏珠学会了隐藏真实的自己，隐藏自己的兴趣爱好，隐瞒自己的私生活。
-			   	    
-			   	    阅读更多：隐杏珠（https://mzh.moegirl.org.cn/%E9%9A%90%E6%9D%8F%E7%8F%A0 ）
-			   	    本文引自萌娘百科(https://mzh.moegirl.org.cn )，文字内容默认使用《知识共享 署名-非商业性使用-相同方式共享 3.0 中国大陆》协议。
+			   	    {{wallInfo.description}}
 			       </view>
 			   </view>
 			   <view class="row" >
 			   	   <view class="label">标签:</view>
 			   	   <view class="value tabs">
-			   	    <view class="tab" v-for="item in 3">LimeLight</view>
+			   	    <view class="tab" v-for="tab in wallInfo.tabs" :key="tab">{{tab}}</view>
 			       </view>
 			   </view>
 			   <view class="copyright">
