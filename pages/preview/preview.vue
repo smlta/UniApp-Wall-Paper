@@ -9,6 +9,7 @@ const StorageList = ref([]) //缓存壁纸列表
 const bigWallList = ref([]) //大图壁纸列表
 const readImag =ref([]) //图片缓存数组.用于图片懒加载
 const wallInfo = ref(null) //壁纸信息对象
+const isScore = ref(false) //是否为当前壁纸评过分
 StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存壁纸数组如果没有获取到返回空数组
  bigWallList.value = StorageList.value.map(item => {
 	 return {...item,
@@ -58,21 +59,34 @@ const closepop = () => {
 	pop.value.close()
 }
 const showratepop = () => {
+	if(wallInfo.value.useScore)
+	{
+		isScore.value = true
+		wallscore.value = wallInfo.value.useScore
+	} //如果当前壁纸评过分,打开时评分为自己打的分
 	ratepop.value.open()
 } //显示评分弹层
 const closeratepop = () => {
 	ratepop.value.close()
+	wallscore.value = 0 //重置评分
+	isScore.value = false //重置评分状态
 } //关闭评分弹层
 const confirmrate = async () => {
+	uni.showLoading({
+		title:"加载中..."
+	}) //显示加载框
 	let {classid,_id} = wallInfo.value //点击评分时,从当前壁纸信息对象中解构当前壁纸的参数
 	 const res = await setWallScore({classid,wallId:_id,userScore:wallscore.value})
+	  uni.hideLoading() // 隐藏加载框
 	 if(res.data.errCode === 0) {
 		 uni.showToast({
 		 	title:'评分成功',
 			icon:'none'
 		 })
+		 bigWallList.value[currentIndex.value].useScore = wallscore.value
+		 //当评分成功,给当前壁纸对象添加一个userScore字段保存用户的对该壁纸的评分 
+	     uni.setStorageSync("cate_wall",bigWallList.value) //将数组缓存
 		 closeratepop() //关闭弹层
-		 wallscore.value = 0 //重置评分
 	 }
 }
 const goback = () => {
@@ -166,17 +180,17 @@ const goback = () => {
 	   <view class="scorepopup">
 		   <view class="header">
 		   		   <view></view>
-		   		   <view class="text">壁纸信息</view>
+		   		   <view class="text">{{isScore ? '您已经评过分了':'壁纸评分'}}</view>
 		   		   <view class="close" @click="closeratepop">
 		   			   <uni-icons type="closeempty" size="18" color="#999"></uni-icons>
 		   		   </view>
 		   </view>
 		   <view class="content">
-			   <uni-rate  v-model="wallscore" allow-half></uni-rate>
+			   <uni-rate  v-model="wallscore" allow-half :disabled="isScore" disabled-color="#FFCA3E"></uni-rate>
 			   <text class="text">{{wallscore}}分</text>
 		   </view>
 		   <view class="footers">
-			   <button plain size="mini" :disabled="!wallscore" @click="confirmrate">确认评分</button>
+			   <button plain size="mini" :disabled="!wallscore || isScore" @click="confirmrate">确认评分</button>
 		   </view>
 	   </view>
    </uni-popup> <!--评分弹层-->
