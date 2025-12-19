@@ -28,9 +28,16 @@ const getCategoryList = (data) => {
     data
   });
 };
+const setWallScore = (data) => {
+  return utils_request.request({
+    url: "/setupScore",
+    data
+  });
+};
 exports.getBannerList = getBannerList;
 exports.getCategoryList = getCategoryList;
 exports.getDayList = getDayList;
 exports.getDayNotice = getDayNotice;
 exports.getWallCategory = getWallCategory;
+exports.setWallScore = setWallScore;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/API/api.js.map

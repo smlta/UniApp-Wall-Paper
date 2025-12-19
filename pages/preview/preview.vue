@@ -84,7 +84,7 @@ const confirmrate = async () => {
 			icon:'none'
 		 })
 		 bigWallList.value[currentIndex.value].useScore = wallscore.value
-		 //当评分成功,给当前壁纸对象添加一个userScore字段保存用户的对该壁纸的评分 
+		 //当评分成功,给当前壁纸对象添加一个userScore字段保存用户的对该壁纸的评分,关闭时重置评分状态和评分 
 	     uni.setStorageSync("cate_wall",bigWallList.value) //将数组缓存
 		 closeratepop() //关闭弹层
 	 }
@@ -92,6 +92,31 @@ const confirmrate = async () => {
 const goback = () => {
 	uni.navigateBack()
 } // 返回上一页
+
+//点击下载
+const clickDownload = () => {
+	// #ifdef H5
+	  uni.showModal({
+	  	content: "请长按保存壁纸",
+		showCancel:false
+	  })
+	// #endif
+	// #ifndef H5
+	   uni.getImageInfo({
+	   	src:wallInfo.value.smallPicurl,
+		success: (res) => {
+			uni.saveImageToPhotosAlbum({
+				filePath:res.path,
+				success:(res) => {
+					console.log(res)
+				}
+			})
+		}
+	   }) //getImageInfo用来将网络图片下载到微信小程序的临时目录中,res.path是图片在临时目录中的地址,save方法的路径不能是网络路径
+	// #endif
+	
+	//如果是H5平台就显示模态框,不是h5平台就通过网络地址生成图片的临时下载地址
+}
 </script>
 
 <template>
@@ -125,7 +150,7 @@ const goback = () => {
 			<uni-icons type="info" size="28"></uni-icons>
 		    <view class="text">5分</view>	
 		</view>
-		<view class="box">
+		<view class="box" @click="clickDownload">
 			<uni-icons type="info" size="28"></uni-icons>
 		    <view class="text">下载</view>	
 		</view>

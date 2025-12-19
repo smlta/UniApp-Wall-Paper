@@ -41,6 +41,7 @@ const _sfc_main = {
       if (query.pageSize > data.length) {
         noData.value = true;
       }
+      common_vendor.index.setStorageSync("cate_wall", categoryList.value);
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
@@ -53,7 +54,8 @@ const _sfc_main = {
         c: common_vendor.f(categoryList.value, (item, k0, i0) => {
           return {
             a: item.smallPicurl,
-            b: item._id
+            b: item._id,
+            c: "/pages/preview/preview?id=" + item._id
           };
         }),
         d: categoryList.value.length || noData.value
