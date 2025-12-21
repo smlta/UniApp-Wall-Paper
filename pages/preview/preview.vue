@@ -102,6 +102,11 @@ const clickDownload = () => {
 	  })
 	// #endif
 	// #ifndef H5
+	uni.showLoading({
+		title:'下载中',
+		mask:true
+	})
+	
 	   uni.getImageInfo({
 	   	src:wallInfo.value.smallPicurl,
 		success: (res) => {
@@ -109,7 +114,44 @@ const clickDownload = () => {
 				filePath:res.path,
 				success:(res) => {
 					console.log(res)
-				}
+				},
+				fail:err => {
+					if(err.errMsg === 'saveImageToPhotosAlbum:fail auth cancel')
+					{
+						uni.showToast({
+							title: '保存失败,请重新点击下载',
+							icon:'none'
+						})
+						return
+					} //如果没有保存图片到相册,意味着你点击了取消
+					uni.showModal({
+						title: '提示',
+						content:'需要授权重新授权以保存图片',
+						success:res => {
+							uni.openSetting({
+								success:res => {
+									if(res.authSetting['scope.writePhotosAlbum'])
+									{
+										uni.showToast({
+											title:'获取授权成功!',
+											icon:'none'
+										})
+									} //如果设置权限成功
+									else
+									{
+										uni.showToast({
+											title: '获取授权失败',
+											icon:'none'
+										})
+									}
+								}
+							})
+						}
+					})
+				}, //该方法需要权限如果拒绝就没有权限再次点击时就会一直进入失败回调
+			   complete:() => {
+				   uni.hideLoading() //图片保存完隐藏加载提示
+			   }
 			})
 		}
 	   }) //getImageInfo用来将网络图片下载到微信小程序的临时目录中,res.path是图片在临时目录中的地址,save方法的路径不能是网络路径

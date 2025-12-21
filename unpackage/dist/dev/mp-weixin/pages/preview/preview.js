@@ -98,13 +98,51 @@ const _sfc_main = {
       common_vendor.index.navigateBack();
     };
     const clickDownload = () => {
+      common_vendor.index.showLoading({
+        title: "下载中",
+        mask: true
+      });
       common_vendor.index.getImageInfo({
         src: wallInfo.value.smallPicurl,
         success: (res) => {
           common_vendor.index.saveImageToPhotosAlbum({
             filePath: res.path,
             success: (res2) => {
-              common_vendor.index.__f__("log", "at pages/preview/preview.vue:111", res2);
+              common_vendor.index.__f__("log", "at pages/preview/preview.vue:116", res2);
+            },
+            fail: (err) => {
+              if (err.errMsg === "saveImageToPhotosAlbum:fail auth cancel") {
+                common_vendor.index.showToast({
+                  title: "保存失败,请重新点击下载",
+                  icon: "none"
+                });
+                return;
+              }
+              common_vendor.index.showModal({
+                title: "提示",
+                content: "需要授权重新授权以保存图片",
+                success: (res2) => {
+                  common_vendor.index.openSetting({
+                    success: (res3) => {
+                      if (res3.authSetting["scope.writePhotosAlbum"]) {
+                        common_vendor.index.showToast({
+                          title: "获取授权成功!",
+                          icon: "none"
+                        });
+                      } else {
+                        common_vendor.index.showToast({
+                          title: "获取授权失败",
+                          icon: "none"
+                        });
+                      }
+                    }
+                  });
+                }
+              });
+            },
+            //该方法需要权限如果拒绝就没有权限再次点击时就会一直进入失败回调
+            complete: () => {
+              common_vendor.index.hideLoading();
             }
           });
         }
