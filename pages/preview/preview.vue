@@ -1,8 +1,8 @@
 <script setup>
 import {getStatusBarHeight} from '@/utils/system.js'
 import { ref } from 'vue';
-import {onLoad} from '@dcloudio/uni-app'
-import {setWallScore} from '@/API/api.js'
+import {onLoad,onShareAppMessage} from '@dcloudio/uni-app'
+import {setWallScore,writeDownLoadInfo,apiDetailWall} from '@/API/api.js'
 const currentId = ref(null) //传递过来的壁纸Id
 const currentIndex = ref(null) //当前item的索引
 const StorageList = ref([]) //缓存壁纸列表
@@ -23,13 +23,31 @@ StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存�
 	 //轮播项改变时,拿到轮播项的索引将其赋值给currentIndex
  } 
 
-onLoad((e) => {
+onLoad(async (e) => {
 	currentId.value = e.id
+	 if(e.type === 'share')
+	 {
+		 const res = await apiDetailWall({id:currentId.value}) //获取分享图信息
+		 
+       	 bigWallList.value = res.data.data.map(item => {
+			 return {
+				 ...item,
+				 picurl:item.smallPicurl.replace("_small.webp","jpg")
+			 } //将分享图片转为大图赋值给展示列表
+		 })
+	 } //如果通过分享进入预览页则获取被分享图的信息
 	currentIndex.value =  bigWallList.value.findIndex(item => item._id === currentId.value)
 	//根据传过来的Id获取该壁纸在数组中的索引
 	wallInfo.value = bigWallList.value[currentIndex.value] //进入页面时通过壁纸索引在列表中获取相应的壁纸信息对象
 	saveImageIndex()
 })
+
+onShareAppMessage(() => {
+	return {
+		title: "鲜虾米壁纸",
+		path:'/pages/preview/preview?id=' + currentId.value +'&type=share'
+	}
+}) // 在分享给朋友时
 
 const saveImageIndex = () => {
 	readImag.value.push(
@@ -94,7 +112,7 @@ const goback = () => {
 } // 返回上一页
 
 //点击下载
-const clickDownload = () => {
+const clickDownload = async () => {
 	// #ifdef H5
 	  uni.showModal({
 	  	content: "请长按保存壁纸",
@@ -102,11 +120,15 @@ const clickDownload = () => {
 	  })
 	// #endif
 	// #ifndef H5
+	try{
 	uni.showLoading({
 		title:'下载中',
 		mask:true
 	})
-	
+	const {classid,_id:wallId} = wallInfo.value
+	const res = await writeDownLoadInfo({classid,wallId})
+	 if(res.data.data.errCode !== 0)
+	  throw res //如果5秒内多次请求则抛错
 	   uni.getImageInfo({
 	   	src:wallInfo.value.smallPicurl,
 		success: (res) => {
@@ -155,6 +177,10 @@ const clickDownload = () => {
 			})
 		}
 	   }) //getImageInfo用来将网络图片下载到微信小程序的临时目录中,res.path是图片在临时目录中的地址,save方法的路径不能是网络路径
+    }catch(err){
+		console.log(err)
+		uni.hideLoading() //如果请求多次报错则关闭加载框
+	}	   
 	// #endif
 	
 	//如果是H5平台就显示模态框,不是h5平台就通过网络地址生成图片的临时下载地址
@@ -207,7 +233,7 @@ const clickDownload = () => {
 		   </view>
 	   </view>
 	   <scroll-view scroll-y>
-		   <view class="content">
+		   <view class="content" v-if="wallInfo">
 			   <view class="row" >
 				   <view class="label">壁纸ID:</view>
 				   <text class="value" selectable>{{wallInfo.classid}}</text>

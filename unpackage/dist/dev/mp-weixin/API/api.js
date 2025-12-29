@@ -34,10 +34,24 @@ const setWallScore = (data) => {
     data
   });
 };
+const writeDownLoadInfo = (data) => {
+  return utils_request.request({
+    url: "/downloadWall",
+    data
+  });
+};
+const apiDetailWall = (data = {}) => {
+  return utils_request.request({
+    url: "/detailWall",
+    data
+  });
+};
+exports.apiDetailWall = apiDetailWall;
 exports.getBannerList = getBannerList;
 exports.getCategoryList = getCategoryList;
 exports.getDayList = getDayList;
 exports.getDayNotice = getDayNotice;
 exports.getWallCategory = getWallCategory;
 exports.setWallScore = setWallScore;
+exports.writeDownLoadInfo = writeDownLoadInfo;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/API/api.js.map

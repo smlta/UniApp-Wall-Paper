@@ -38,11 +38,26 @@ const _sfc_main = {
       saveImageIndex();
       wallInfo.value = bigWallList.value[currentIndex.value];
     };
-    common_vendor.onLoad((e) => {
+    common_vendor.onLoad(async (e) => {
       currentId.value = e.id;
+      if (e.type === "share") {
+        const res = await API_api.apiDetailWall({ id: currentId.value });
+        bigWallList.value = res.data.data.map((item) => {
+          return {
+            ...item,
+            picurl: item.smallPicurl.replace("_small.webp", "jpg")
+          };
+        });
+      }
       currentIndex.value = bigWallList.value.findIndex((item) => item._id === currentId.value);
       wallInfo.value = bigWallList.value[currentIndex.value];
       saveImageIndex();
+    });
+    common_vendor.onShareAppMessage(() => {
+      return {
+        title: "鲜虾米壁纸",
+        path: "/pages/preview/preview?id=" + currentId.value + "&type=share"
+      };
     });
     const saveImageIndex = () => {
       readImag.value.push(
@@ -97,56 +112,65 @@ const _sfc_main = {
     const goback = () => {
       common_vendor.index.navigateBack();
     };
-    const clickDownload = () => {
-      common_vendor.index.showLoading({
-        title: "下载中",
-        mask: true
-      });
-      common_vendor.index.getImageInfo({
-        src: wallInfo.value.smallPicurl,
-        success: (res) => {
-          common_vendor.index.saveImageToPhotosAlbum({
-            filePath: res.path,
-            success: (res2) => {
-              common_vendor.index.__f__("log", "at pages/preview/preview.vue:116", res2);
-            },
-            fail: (err) => {
-              if (err.errMsg === "saveImageToPhotosAlbum:fail auth cancel") {
-                common_vendor.index.showToast({
-                  title: "保存失败,请重新点击下载",
-                  icon: "none"
-                });
-                return;
-              }
-              common_vendor.index.showModal({
-                title: "提示",
-                content: "需要授权重新授权以保存图片",
-                success: (res2) => {
-                  common_vendor.index.openSetting({
-                    success: (res3) => {
-                      if (res3.authSetting["scope.writePhotosAlbum"]) {
-                        common_vendor.index.showToast({
-                          title: "获取授权成功!",
-                          icon: "none"
-                        });
-                      } else {
-                        common_vendor.index.showToast({
-                          title: "获取授权失败",
-                          icon: "none"
-                        });
-                      }
-                    }
+    const clickDownload = async () => {
+      try {
+        common_vendor.index.showLoading({
+          title: "下载中",
+          mask: true
+        });
+        const { classid, _id: wallId } = wallInfo.value;
+        const res = await API_api.writeDownLoadInfo({ classid, wallId });
+        if (res.data.data.errCode !== 0)
+          throw res;
+        common_vendor.index.getImageInfo({
+          src: wallInfo.value.smallPicurl,
+          success: (res2) => {
+            common_vendor.index.saveImageToPhotosAlbum({
+              filePath: res2.path,
+              success: (res3) => {
+                common_vendor.index.__f__("log", "at pages/preview/preview.vue:138", res3);
+              },
+              fail: (err) => {
+                if (err.errMsg === "saveImageToPhotosAlbum:fail auth cancel") {
+                  common_vendor.index.showToast({
+                    title: "保存失败,请重新点击下载",
+                    icon: "none"
                   });
+                  return;
                 }
-              });
-            },
-            //该方法需要权限如果拒绝就没有权限再次点击时就会一直进入失败回调
-            complete: () => {
-              common_vendor.index.hideLoading();
-            }
-          });
-        }
-      });
+                common_vendor.index.showModal({
+                  title: "提示",
+                  content: "需要授权重新授权以保存图片",
+                  success: (res3) => {
+                    common_vendor.index.openSetting({
+                      success: (res4) => {
+                        if (res4.authSetting["scope.writePhotosAlbum"]) {
+                          common_vendor.index.showToast({
+                            title: "获取授权成功!",
+                            icon: "none"
+                          });
+                        } else {
+                          common_vendor.index.showToast({
+                            title: "获取授权失败",
+                            icon: "none"
+                          });
+                        }
+                      }
+                    });
+                  }
+                });
+              },
+              //该方法需要权限如果拒绝就没有权限再次点击时就会一直进入失败回调
+              complete: () => {
+                common_vendor.index.hideLoading();
+              }
+            });
+          }
+        });
+      } catch (err) {
+        common_vendor.index.__f__("log", "at pages/preview/preview.vue:181", err);
+        common_vendor.index.hideLoading();
+      }
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
@@ -163,7 +187,7 @@ const _sfc_main = {
         b: currentIndex.value,
         c: common_vendor.o(pagealter),
         d: showmask.value
-      }, showmask.value ? {
+      }, showmask.value ? common_vendor.e({
         e: common_vendor.p({
           type: "back",
           color: "#fff",
@@ -202,51 +226,55 @@ const _sfc_main = {
           color: "#999"
         }),
         s: common_vendor.o(closepop),
-        t: common_vendor.t(wallInfo.value.classid),
-        v: common_vendor.t(wallInfo.value.nickname),
-        w: common_vendor.p({
+        t: wallInfo.value
+      }, wallInfo.value ? {
+        v: common_vendor.t(wallInfo.value.classid),
+        w: common_vendor.t(wallInfo.value.nickname),
+        x: common_vendor.p({
           readonly: true,
           touchable: true,
           value: wallInfo.value.score
         }),
-        x: common_vendor.t(wallInfo.value.score),
-        y: common_vendor.t(wallInfo.value.description),
-        z: common_vendor.f(wallInfo.value.tabs, (tab, k0, i0) => {
+        y: common_vendor.t(wallInfo.value.score),
+        z: common_vendor.t(wallInfo.value.description),
+        A: common_vendor.f(wallInfo.value.tabs, (tab, k0, i0) => {
           return {
             a: common_vendor.t(tab),
             b: tab
           };
-        }),
-        A: common_vendor.sr(pop, "2dad6c07-6", {
+        })
+      } : {}, {
+        B: common_vendor.sr(pop, "2dad6c07-6", {
           "k": "pop"
         }),
-        B: common_vendor.p({
+        C: common_vendor.p({
           type: "bottom"
         }),
-        C: common_vendor.t(isScore.value ? "您已经评过分了" : "壁纸评分"),
-        D: common_vendor.p({
+        D: common_vendor.t(isScore.value ? "您已经评过分了" : "壁纸评分"),
+        E: common_vendor.p({
           type: "closeempty",
           size: "18",
           color: "#999"
         }),
-        E: common_vendor.o(closeratepop),
-        F: common_vendor.o(($event) => wallscore.value = $event),
-        G: common_vendor.p({
+        F: common_vendor.o(closeratepop),
+        G: common_vendor.o(($event) => wallscore.value = $event),
+        H: common_vendor.p({
           ["allow-half"]: true,
           disabled: isScore.value,
           ["disabled-color"]: "#FFCA3E",
           modelValue: wallscore.value
         }),
-        H: common_vendor.t(wallscore.value),
-        I: !wallscore.value || isScore.value,
-        J: common_vendor.o(confirmrate),
-        K: common_vendor.sr(ratepop, "2dad6c07-9", {
+        I: common_vendor.t(wallscore.value),
+        J: !wallscore.value || isScore.value,
+        K: common_vendor.o(confirmrate),
+        L: common_vendor.sr(ratepop, "2dad6c07-9", {
           "k": "ratepop"
         })
-      } : {});
+      }) : {});
     };
   }
 };
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-2dad6c07"]]);
+_sfc_main.__runtimeHooks = 2;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/preview/preview.js.map

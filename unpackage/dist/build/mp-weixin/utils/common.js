@@ -1,0 +1,1 @@
+"use strict";exports.compareTimestamp=function(e){const t=(new Date).getTime()-e;return t<6e4?"一分钟内":t<36e5?Math.floor(t/6e4)+"分钟":t<864e5?Math.floor(t/36e5)+"小时":t<2592e6?Math.floor(t/864e5)+"天":t<7776e6?Math.floor(t/2592e6)+"月":null};

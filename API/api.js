@@ -44,3 +44,18 @@ export const setWallScore = (data) => {
 		data
 	})
 }
+ // 写入下载记录
+export const writeDownLoadInfo = (data) => {
+	return request({
+		url: '/downloadWall',
+		data
+	})
+}
+
+// 获取单张壁纸详情
+export const apiDetailWall = (data = {}) => {
+	return request({
+		url:'/detailWall',
+		data
+	})
+}

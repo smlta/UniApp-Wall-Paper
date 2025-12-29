@@ -1,6 +1,20 @@
 <script setup>
 	import { ref } from 'vue'
 	import {getBannerList,getDayList,getDayNotice,getWallCategory} from '@/API/api.js'
+    import {onShareAppMessage,onShareTimeline} from '@dcloudio/uni-app'
+	onShareAppMessage(() => {
+		return {
+			title:'兰庭壁纸',
+			path:'/pages/classify/classify'
+		}
+	}) //点击分享朋友时,这里即指微信小程序的分享也有分享按钮
+	
+	onShareTimeline(() => {
+		return {
+			title:'兰庭壁纸',
+			imageUrl:bannerList.value[0].picurl
+		}
+	})
 	const bannerList = ref([]) //横播图
 	const dayList = ref([]) //每日推荐图片
 	const noticeList = ref([]) //通知列表

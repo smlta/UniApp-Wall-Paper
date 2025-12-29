@@ -5,6 +5,7 @@
 			"style": {
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom" // 隐藏顶部导航栏
+				
 			}
 		},
 		{

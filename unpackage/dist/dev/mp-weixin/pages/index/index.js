@@ -20,6 +20,18 @@ if (!Math) {
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    common_vendor.onShareAppMessage(() => {
+      return {
+        title: "兰庭壁纸",
+        path: "/pages/classify/classify"
+      };
+    });
+    common_vendor.onShareTimeline(() => {
+      return {
+        title: "兰庭壁纸",
+        imageUrl: bannerList.value[0].picurl
+      };
+    });
     const bannerList = common_vendor.ref([]);
     const dayList = common_vendor.ref([]);
     const noticeList = common_vendor.ref([]);
@@ -111,5 +123,6 @@ const _sfc_main = {
   }
 };
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"]]);
+_sfc_main.__runtimeHooks = 6;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/index.js.map

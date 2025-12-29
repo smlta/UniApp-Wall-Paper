@@ -1,0 +1,1 @@
+"use strict";const t=require("../common/vendor.js");let e=t.index.getSystemInfoSync();const n=()=>e.statusBarHeight||15;exports.getLeftIconLeft=()=>0,exports.getStatusBarHeight=n,exports.getTitleBarHeight=()=>{if(t.index.getMenuButtonBoundingClientRect){let{top:e,height:i}=t.index.getMenuButtonBoundingClientRect();return i+2*(e-n())}return 40};

@@ -1,0 +1,1 @@
+"use strict";const e={name:"common-title",data:()=>({})};const t=require("../../common/vendor.js")._export_sfc(e,[["render",function(e,t,n,o,c,r){return{}}],["__scopeId","data-v-d817c538"]]);wx.createComponent(t);
