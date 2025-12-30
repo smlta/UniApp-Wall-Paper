@@ -15,13 +15,17 @@
 			imageUrl:bannerList.value[0].picurl
 		}
 	})
+	
+	
+	
 	const bannerList = ref([]) //横播图
 	const dayList = ref([]) //每日推荐图片
 	const noticeList = ref([]) //通知列表
 	const themeList = ref([]) //专题精选列表
-	const gopreview = () => {
+	const gopreview = (id) => {
+		uni.setStorageSync("cate_wall",dayList.value) //当点击每日推荐的图片时跳转预览页,预览每日推荐的图片,传递id指定当前预览的图片
 		uni.navigateTo({
-			url:'/pages/preview/preview'
+			url:'/pages/preview/preview?id=' + id
 		})
 	} // 跳转预览页
 	const getBanner = async () => {
@@ -93,7 +97,7 @@
 			</common-title>
 			<view class="content">
 				<scroll-view scroll-x>
-					<view class="box" v-for="item in dayList" :key="item.classid" @click="gopreview()">
+					<view class="box" v-for="item in dayList" :key="item.classid" @click="gopreview(item._id)">
 						<image :src="item.smallPicurl"></image>
 					</view>
 				</scroll-view>

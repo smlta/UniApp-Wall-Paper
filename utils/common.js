@@ -27,3 +27,21 @@ export function compareTimestamp(time) {
 		return null
 	}
 }
+
+// 定义回到首页工具函数,当预览页或classlist页未传递id进入时需要返回到首页
+
+export const gotoHome = () => {
+	uni.showModal({
+		title:'提示',
+		content:'id未传递,请通过正确方式进入该页面',
+		showCancel:false,
+		success:(res) => {
+			if(res.confirm)
+			{
+				uni.reLaunch({
+					url:'/pages/index/index'
+				})
+			}
+		}
+	})
+}

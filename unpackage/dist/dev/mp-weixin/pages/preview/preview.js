@@ -2,6 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const utils_system = require("../../utils/system.js");
 const API_api = require("../../API/api.js");
+const utils_common = require("../../utils/common.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_dateformat2 = common_vendor.resolveComponent("uni-dateformat");
@@ -40,6 +41,9 @@ const _sfc_main = {
     };
     common_vendor.onLoad(async (e) => {
       currentId.value = e.id;
+      if (!currentId.value) {
+        utils_common.gotoHome();
+      }
       if (e.type === "share") {
         const res = await API_api.apiDetailWall({ id: currentId.value });
         bigWallList.value = res.data.data.map((item) => {
@@ -128,7 +132,7 @@ const _sfc_main = {
             common_vendor.index.saveImageToPhotosAlbum({
               filePath: res2.path,
               success: (res3) => {
-                common_vendor.index.__f__("log", "at pages/preview/preview.vue:138", res3);
+                common_vendor.index.__f__("log", "at pages/preview/preview.vue:143", res3);
               },
               fail: (err) => {
                 if (err.errMsg === "saveImageToPhotosAlbum:fail auth cancel") {
@@ -168,7 +172,7 @@ const _sfc_main = {
           }
         });
       } catch (err) {
-        common_vendor.index.__f__("log", "at pages/preview/preview.vue:181", err);
+        common_vendor.index.__f__("log", "at pages/preview/preview.vue:186", err);
         common_vendor.index.hideLoading();
       }
     };
@@ -248,7 +252,8 @@ const _sfc_main = {
           "k": "pop"
         }),
         C: common_vendor.p({
-          type: "bottom"
+          type: "bottom",
+          ["safe-area"]: false
         }),
         D: common_vendor.t(isScore.value ? "您已经评过分了" : "壁纸评分"),
         E: common_vendor.p({

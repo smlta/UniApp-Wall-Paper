@@ -43,6 +43,9 @@ const _sfc_main = {
       }
       common_vendor.index.setStorageSync("cate_wall", categoryList.value);
     };
+    common_vendor.onUnload(() => {
+      common_vendor.index.removeStorageSync("cate_wall");
+    });
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: !categoryList.value.length && !noData.value

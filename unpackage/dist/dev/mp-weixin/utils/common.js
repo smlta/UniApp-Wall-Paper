@@ -1,4 +1,5 @@
 "use strict";
+const common_vendor = require("../common/vendor.js");
 function compareTimestamp(time) {
   const currentTime = (/* @__PURE__ */ new Date()).getTime();
   const timeDiff = currentTime - time;
@@ -16,5 +17,20 @@ function compareTimestamp(time) {
     return null;
   }
 }
+const gotoHome = () => {
+  common_vendor.index.showModal({
+    title: "提示",
+    content: "id未传递,请通过正确方式进入该页面",
+    showCancel: false,
+    success: (res) => {
+      if (res.confirm) {
+        common_vendor.index.reLaunch({
+          url: "/pages/index/index"
+        });
+      }
+    }
+  });
+};
 exports.compareTimestamp = compareTimestamp;
+exports.gotoHome = gotoHome;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/utils/common.js.map

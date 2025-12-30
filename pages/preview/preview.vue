@@ -3,6 +3,7 @@ import {getStatusBarHeight} from '@/utils/system.js'
 import { ref } from 'vue';
 import {onLoad,onShareAppMessage} from '@dcloudio/uni-app'
 import {setWallScore,writeDownLoadInfo,apiDetailWall} from '@/API/api.js'
+import {gotoHome} from '@/utils/common.js'
 const currentId = ref(null) //传递过来的壁纸Id
 const currentIndex = ref(null) //当前item的索引
 const StorageList = ref([]) //缓存壁纸列表
@@ -25,6 +26,10 @@ StorageList.value = uni.getStorageSync('cate_wall') || [] //获取本地储存�
 
 onLoad(async (e) => {
 	currentId.value = e.id
+	if(!currentId.value)
+	{
+		gotoHome()
+	} //如果为传递ID
 	 if(e.type === 'share')
 	 {
 		 const res = await apiDetailWall({id:currentId.value}) //获取分享图信息
@@ -223,7 +228,7 @@ const clickDownload = async () => {
 		    <view class="text">下载</view>	
 		</view>
 	</view>
-   <uni-popup type="bottom" ref="pop">
+   <uni-popup type="bottom" ref="pop" :safe-area="false"> <!--不适配安全区域,即弹层不会主动远离系统控件区域-->
 	<view class="infopop">
 	   <view class="header">
 		   <view></view>

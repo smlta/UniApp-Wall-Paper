@@ -36,9 +36,10 @@ const _sfc_main = {
     const dayList = common_vendor.ref([]);
     const noticeList = common_vendor.ref([]);
     const themeList = common_vendor.ref([]);
-    const gopreview = () => {
+    const gopreview = (id) => {
+      common_vendor.index.setStorageSync("cate_wall", dayList.value);
       common_vendor.index.navigateTo({
-        url: "/pages/preview/preview"
+        url: "/pages/preview/preview?id=" + id
       });
     };
     const getBanner = async () => {
@@ -103,7 +104,7 @@ const _sfc_main = {
           return {
             a: item.smallPicurl,
             b: item.classid,
-            c: common_vendor.o(($event) => gopreview(), item.classid)
+            c: common_vendor.o(($event) => gopreview(item._id), item.classid)
           };
         }),
         i: common_vendor.f(themeList.value, (item, k0, i0) => {

@@ -1,7 +1,7 @@
 <script setup>
  import {ref} from 'vue'
  import {getCategoryList} from '@/API/api.js'
- import {onLoad,onReachBottom} from '@dcloudio/uni-app'
+ import {onLoad,onReachBottom,onUnload} from '@dcloudio/uni-app'
  const noData = ref(false)
  const query = {
 	 classid: '',
@@ -36,6 +36,9 @@
 	 uni.setStorageSync("cate_wall",categoryList.value) //将获取的壁纸数组本地储存
  } //获取某分类的所有壁纸
  
+ onUnload(() => {
+	 uni.removeStorageSync("cate_wall")
+ }) //在页面销毁时清除缓存壁纸数据
 </script>
 
 <template>
