@@ -46,11 +46,17 @@ const apiDetailWall = (data = {}) => {
     data
   });
 };
+const getUserinfo = () => {
+  return utils_request.request({
+    url: "/userInfo"
+  });
+};
 exports.apiDetailWall = apiDetailWall;
 exports.getBannerList = getBannerList;
 exports.getCategoryList = getCategoryList;
 exports.getDayList = getDayList;
 exports.getDayNotice = getDayNotice;
+exports.getUserinfo = getUserinfo;
 exports.getWallCategory = getWallCategory;
 exports.setWallScore = setWallScore;
 exports.writeDownLoadInfo = writeDownLoadInfo;

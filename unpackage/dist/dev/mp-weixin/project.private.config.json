@@ -3,11 +3,18 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/preview/preview",
-          "pathName": "pages/preview/preview",
+          "name": "pages/usesr/usesr",
+          "pathName": "pages/usesr/usesr",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/preview/preview",
+          "pathName": "pages/preview/preview",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/index/index",

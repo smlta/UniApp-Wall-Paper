@@ -23,6 +23,9 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.loadingLayout.data-v-6376ad20 {
+  padding: 40rpx;
+}
 .userLayout .userinfo.data-v-6376ad20 {
   display: flex;
   flex-direction: column;

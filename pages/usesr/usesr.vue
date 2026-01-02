@@ -1,19 +1,31 @@
 <script setup>
+import {getNavBarHeight} from '@/utils/system.js' //获取刘海屏高度
+import {getUserinfo} from '@/API/api.js'
+import { ref } from 'vue';
+const userinfo = ref(null) //保存接口获取的用户信息
+const getuserinfo = async () => {
+  const {data:{data}} = await	getUserinfo() //获取用户信息
+  userinfo.value = data
+} //获取用户信息
 const callphone = () => {
 	uni.makePhoneCall({
 		phoneNumber: '18977924692'
 	}); //报打电话
 };
+getuserinfo()
 </script>
 
 <template>
-	<view class="userLayout pagebag">
+	<view class="userLayout pagebag" v-if="userinfo">
+		<view :style="{height:getNavBarHeight() + 'px'}">
+			
+		</view> <!--设置一个和刘海屏一样大的透明盒子,将页面顶下来防止被遮住-->
 		<view class="userinfo">
 			<view class="avatar">
-				<image src="/common/images/kirarashss-1.png"></image>
+				<image src="/static/logo.png"></image>
 			</view>
-			<view class="ip">192.168.163.1</view>
-			<view class="address">来自于: XX</view>
+			<view class="ip">{{userinfo.IP}}</view>
+			<view class="address">来自于: {{userinfo.address.city||userinfo.address.province||userinfo.address.country}}</view>
 		</view>
 		<view class="section">
 			<view class="list">
@@ -24,7 +36,7 @@ const callphone = () => {
 						<view class="text">我的下载</view>
 					</view>
 					<view class="right">
-						<view class="text">0</view>
+						<view class="text">{{userinfo.downloadSize}}</view>
 						<uni-icons type="right" size="30"></uni-icons>
 					</view>
 				</view>
@@ -36,7 +48,7 @@ const callphone = () => {
 						<view class="text">我的评分</view>
 					</view>
 					<view class="right">
-						<view class="text">0</view>
+						<view class="text">{{userinfo.scoreSize}}</view>
 						<uni-icons type="right" size="30"></uni-icons>
 					</view>
 				</view>
@@ -87,9 +99,18 @@ const callphone = () => {
 			</view>
 		</view>
 	</view>
+	
+	<view v-else>
+		<view :style="{height:getNavBarHeight() + 'px'}"></view>
+		<uni-load-more status="loading"></uni-load-more>
+	</view>
 </template>
 
 <style lang="scss" scoped>
+.loadingLayout {
+	padding: 40rpx;
+}	
+	
 .userLayout {
 	.userinfo {
 		display: flex;

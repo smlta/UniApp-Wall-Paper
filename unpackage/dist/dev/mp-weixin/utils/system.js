@@ -10,10 +10,12 @@ const getTitleBarHeight = () => {
     return 40;
   }
 };
+const getNavBarHeight = () => getStatusBarHeight() + getTitleBarHeight();
 const getLeftIconLeft = () => {
   return 0;
 };
 exports.getLeftIconLeft = getLeftIconLeft;
+exports.getNavBarHeight = getNavBarHeight;
 exports.getStatusBarHeight = getStatusBarHeight;
 exports.getTitleBarHeight = getTitleBarHeight;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/utils/system.js.map

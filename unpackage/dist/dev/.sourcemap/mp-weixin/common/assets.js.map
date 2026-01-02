@@ -1,1 +1,1 @@
-{"version":3,"file":"assets.js","sources":["common/images/kirarashss-1.png"],"sourcesContent":["export default \"__VITE_ASSET__16101cc4__\""],"names":[],"mappings":";AAAA,MAAe,aAAA;;"}
+{"version":3,"file":"assets.js","sources":["static/logo.png","common/images/kirarashss-1.png"],"sourcesContent":["export default \"__VITE_ASSET__46719607__\"","export default \"__VITE_ASSET__16101cc4__\""],"names":[],"mappings":";AAAA,MAAe,eAAA;ACAf,MAAe,aAAA;;;"}

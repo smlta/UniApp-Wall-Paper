@@ -59,3 +59,11 @@ export const apiDetailWall = (data = {}) => {
 		data
 	})
 }
+
+// 获取用户个人信息
+
+export const getUserinfo = () => {
+	return request({
+		url:'/userInfo'
+	})
+}

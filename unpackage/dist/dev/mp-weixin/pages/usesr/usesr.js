@@ -1,63 +1,85 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
+const utils_system = require("../../utils/system.js");
+const API_api = require("../../API/api.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
-  _easycom_uni_icons2();
+  const _easycom_uni_load_more2 = common_vendor.resolveComponent("uni-load-more");
+  (_easycom_uni_icons2 + _easycom_uni_load_more2)();
 }
 const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
+const _easycom_uni_load_more = () => "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more.js";
 if (!Math) {
-  _easycom_uni_icons();
+  (_easycom_uni_icons + _easycom_uni_load_more)();
 }
 const _sfc_main = {
   __name: "usesr",
   setup(__props) {
+    const userinfo = common_vendor.ref(null);
+    const getuserinfo = async () => {
+      const { data: { data } } = await API_api.getUserinfo();
+      userinfo.value = data;
+    };
+    getuserinfo();
     return (_ctx, _cache) => {
-      return {
-        a: common_assets._imports_0,
-        b: common_vendor.p({
-          type: "download-filled",
-          size: "20"
-        }),
-        c: common_vendor.p({
-          type: "right",
-          size: "30"
-        }),
-        d: common_vendor.p({
-          type: "download-filled",
-          size: "20"
-        }),
-        e: common_vendor.p({
-          type: "right",
-          size: "30"
-        }),
+      return common_vendor.e({
+        a: userinfo.value
+      }, userinfo.value ? {
+        b: common_vendor.unref(utils_system.getNavBarHeight)() + "px",
+        c: common_assets._imports_0,
+        d: common_vendor.t(userinfo.value.IP),
+        e: common_vendor.t(userinfo.value.address.city || userinfo.value.address.province || userinfo.value.address.country),
         f: common_vendor.p({
           type: "download-filled",
           size: "20"
         }),
-        g: common_vendor.p({
+        g: common_vendor.t(userinfo.value.downloadSize),
+        h: common_vendor.p({
           type: "right",
           size: "30"
         }),
-        h: common_vendor.p({
+        i: common_vendor.p({
           type: "download-filled",
           size: "20"
         }),
-        i: common_vendor.p({
+        j: common_vendor.t(userinfo.value.scoreSize),
+        k: common_vendor.p({
+          type: "right",
+          size: "30"
+        }),
+        l: common_vendor.p({
+          type: "download-filled",
+          size: "20"
+        }),
+        m: common_vendor.p({
+          type: "right",
+          size: "30"
+        }),
+        n: common_vendor.p({
+          type: "download-filled",
+          size: "20"
+        }),
+        o: common_vendor.p({
           type: "right",
           size: "30",
           color: "#aaa"
         }),
-        j: common_vendor.p({
+        p: common_vendor.p({
           type: "download-filled",
           size: "20"
         }),
-        k: common_vendor.p({
+        q: common_vendor.p({
           type: "right",
           size: "30",
           color: "#aaa"
         })
-      };
+      } : {
+        r: common_vendor.unref(utils_system.getNavBarHeight)() + "px",
+        s: common_vendor.p({
+          status: "loading"
+        })
+      });
     };
   }
 };
